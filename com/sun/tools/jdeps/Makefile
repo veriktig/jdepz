@@ -4,6 +4,10 @@ JDK22_SRCS = \
 
 OUTPUT = ./classes
 
+JAR = jdepz.jar
+
+MAIN_CLASS = com.sun.tools.jdeps.Main
+
 CLASSFILE_DIR = ../classfile
 
 CLASSFILE_SRC = \
@@ -98,5 +102,14 @@ SRCS = \
 	Profile.java \
 	VersionHelper.java
 
-all:
+all: jar
+
+compile:
 	javac --release 21 -d ${OUTPUT} ${CLASSFILE_SRCS} ${SRCS}
+
+jar: compile
+	jar --create --file ${JAR} -e ${MAIN_CLASS} -C ./resources .
+	jar --update --file ${JAR} -C ${OUTPUT} .
+
+clobber:
+	rm -rf ${OUTPUT} ${JAR}
