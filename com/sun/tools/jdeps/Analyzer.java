@@ -353,7 +353,6 @@ public class Analyzer {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public boolean equals(Object o) {
             if (o instanceof Dep) {
                 Dep d = (Dep) o;

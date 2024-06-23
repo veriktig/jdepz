@@ -37,7 +37,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public abstract class JdepsWriter {
     public static JdepsWriter newDotWriter(Path outputdir, Analyzer.Type type) {

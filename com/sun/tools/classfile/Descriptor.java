@@ -119,8 +119,8 @@ public class Descriptor {
 
         while (p < end) {
             String type;
-            char ch;
-            switch (ch = desc.charAt(p++)) {
+            char ch = desc.charAt(p++);
+            switch (ch) {
                 case '(':
                     sb.append('(');
                     continue;

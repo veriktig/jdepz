@@ -100,7 +100,6 @@ public class ConstantPool {
             return "value not found: " + value;
         }
 
-        @SuppressWarnings("serial") // Type of field is not Serializable
         public final Object value;
     }
 
@@ -1022,7 +1021,7 @@ public class ConstantPool {
             }
             SizeOutputStream sizeOut = new SizeOutputStream();
             DataOutputStream out = new DataOutputStream(sizeOut);
-            try { out.writeUTF(value); } catch (IOException ignore) { }
+            try { out.writeUTF(value); out.close();} catch (IOException ignore) { }
             return 1 + sizeOut.size;
         }
 

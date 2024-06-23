@@ -211,8 +211,6 @@ public class ModuleInfoBuilder {
     private void printModuleInfo(PrintWriter writer, ModuleDescriptor md) {
         writer.format("%smodule %s {%n", open ? "open " : "", md.name());
 
-        Map<String, Module> modules = configuration.getModules();
-
         // first print requires
         Set<Requires> reqs = md.requires().stream()
             .filter(req -> !req.name().equals("java.base") && req.modifiers().isEmpty())

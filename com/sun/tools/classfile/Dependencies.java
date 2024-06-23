@@ -26,7 +26,6 @@
 package com.sun.tools.classfile;
 
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +66,6 @@ public class Dependencies {
     /**
      * Thrown when a class file cannot be found.
      */
-    @SuppressWarnings("this-escape")
     public static class ClassFileNotFoundException extends Exception {
         private static final long serialVersionUID = 3632265927794475048L;
 
@@ -87,7 +85,6 @@ public class Dependencies {
     /**
      * Thrown when an exception is found processing a class file.
      */
-    @SuppressWarnings("this-escape")
     public static class ClassFileError extends Error {
         private static final long serialVersionUID = 4111110813961313203L;
 

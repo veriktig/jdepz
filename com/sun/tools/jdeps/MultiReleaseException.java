@@ -34,7 +34,6 @@ package com.sun.tools.jdeps;
 class MultiReleaseException extends RuntimeException {
     private static final long serialVersionUID = 4474870142461654108L;
     private final String key;
-    @SuppressWarnings("serial") // Array component type is not Serializable
     private final Object[] params;
 
     /**

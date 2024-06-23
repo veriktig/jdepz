@@ -28,7 +28,6 @@ package com.sun.tools.jdeps;
 import com.sun.tools.classfile.Dependency.Location;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;

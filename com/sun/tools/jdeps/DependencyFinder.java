@@ -38,7 +38,6 @@ import com.sun.tools.classfile.Dependency.Location;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -46,7 +45,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutionException;

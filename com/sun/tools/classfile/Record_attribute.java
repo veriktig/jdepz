@@ -26,7 +26,6 @@
 package com.sun.tools.classfile;
 
 import java.io.IOException;
-import com.sun.tools.classfile.Attribute.Visitor;
 
 /**
  *  <p><b>This is NOT part of any supported API.

@@ -63,7 +63,6 @@ class JdepsTask {
             return this;
         }
         final String key;
-        @SuppressWarnings("serial") // Array component type is not Serializable
         final Object[] args;
         boolean showUsage;
 

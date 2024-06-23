@@ -25,8 +25,6 @@
 
 package com.sun.tools.classfile;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
