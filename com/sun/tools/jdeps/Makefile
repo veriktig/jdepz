@@ -1,6 +1,4 @@
-JDK22_SRCS = \
-	Dependencies.java \
-	Dependency.java
+#
 
 OUTPUT = ./classes
 
