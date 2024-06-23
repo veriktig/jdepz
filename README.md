@@ -1,2 +1,2 @@
 # jdepz
-Hacked openjdk/jdk-jdeps for OSGI header generation
+Hacked openjdk/jdk-jdeps for OSGI manifest generation
