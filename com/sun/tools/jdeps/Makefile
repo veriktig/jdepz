@@ -2,7 +2,7 @@
 
 OUTPUT = ./classes
 
-JAR = jdepz.jar
+JAR = ../../../../jdepz.jar
 
 MAIN_CLASS = com.sun.tools.jdeps.Main
 
@@ -109,5 +109,5 @@ jar: compile
 	jar --create --file ${JAR} -e ${MAIN_CLASS} -C ./resources .
 	jar --update --file ${JAR} -C ${OUTPUT} .
 
-clobber:
-	rm -rf ${OUTPUT} ${JAR}
+clean:
+	rm -rf ${OUTPUT}
