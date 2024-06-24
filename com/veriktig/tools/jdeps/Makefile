@@ -106,7 +106,7 @@ compile:
 	javac --release 21 -d ${OUTPUT} ${CLASSFILE_SRCS} ${SRCS}
 
 jar: compile
-	jar --create --file ${JAR} -e ${MAIN_CLASS} -C . .
+	jar --create --file ${JAR} -e ${MAIN_CLASS} ./resources
 	jar --update --file ${JAR} -C ${OUTPUT} .
 
 clean:
