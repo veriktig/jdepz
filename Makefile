@@ -12,4 +12,4 @@ clobber: clean
 	rm -rf jdepz.jar
 
 run:
-	java -jar jdepz.jar --missing-deps ./ScAPI-1.2.0.jar
+	java -jar jdepz.jar --osgi ScAPI-1.2.0.jar

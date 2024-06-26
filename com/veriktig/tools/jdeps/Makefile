@@ -97,6 +97,7 @@ SRCS = \
 	ModuleInfoBuilder.java \
 	Module.java \
 	MultiReleaseException.java \
+	OsgiBuilder.java \
 	Profile.java \
 	VersionHelper.java
 

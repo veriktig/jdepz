@@ -156,7 +156,8 @@ class JdepsTask {
         LIST_DEPS("--list-deps"),
         LIST_REDUCED_DEPS("--list-reduced-deps"),
         PRINT_MODULE_DEPS("--print-module-deps"),
-        CHECK_MODULES("--check");
+        CHECK_MODULES("--check"),
+        GENERATE_OSGI("--osgi");
 
         private final String[] names;
         CommandOption(String... names) {
@@ -362,6 +363,14 @@ class JdepsTask {
                 task.options.ignoreMissingDeps = true;
             }
         },
+        new Option(false, CommandOption.GENERATE_OSGI) {
+            void process(JdepsTask task, String opt, String arg) throws BadArgs {
+                if (task.command != null) {
+                    throw new BadArgs("err.command.set", task.command, opt);
+                }
+                task.command = task.genOsgiInfo();
+            }
+        },
 
         // ---- Target filtering options ----
         new Option(true, "-p", "-package", "--package") {
@@ -487,6 +496,7 @@ class JdepsTask {
     private final Options options = new Options();
     private final List<String> inputArgs = new ArrayList<>();
 
+    private HashSet<String> imports = new HashSet<String>();
     private Command command;
     private PrintWriter log;
     void setLog(PrintWriter out) {
@@ -625,6 +635,10 @@ class JdepsTask {
             throw new BadArgs("err.invalid.path", dir.toString());
         }
         return new GenModuleInfo(dir, openModule);
+    }
+
+    private GenOsgiInfo genOsgiInfo() throws BadArgs {
+        return new GenOsgiInfo();
     }
 
     private ListModuleDeps listModuleDeps(CommandOption option) throws BadArgs {
@@ -965,6 +979,64 @@ class JdepsTask {
         }
     }
 
+    class GenOsgiInfo extends Command {
+        GenOsgiInfo() {
+            super(CommandOption.GENERATE_OSGI);
+        }
+
+        @Override
+        boolean checkOptions() {
+            return true;
+        }
+
+        @Override
+        boolean run(JdepsConfiguration config) throws IOException {
+            // check if any JAR file contains unnamed package
+            for (String arg : inputArgs) {
+                try (ClassFileReader reader = ClassFileReader.newInstance(Paths.get(arg), config.getVersion())) {
+                    Optional<String> classInUnnamedPackage =
+                        reader.entries().stream()
+                              .filter(n -> n.endsWith(".class"))
+                              .filter(cn -> toPackageName(cn).isEmpty())
+                              .findFirst();
+
+                    if (classInUnnamedPackage.isPresent()) {
+                        if (classInUnnamedPackage.get().equals("module-info.class")) {
+                            reportError("err.genmoduleinfo.not.jarfile", arg);
+                        } else {
+                            reportError("err.genmoduleinfo.unnamed.package", arg);
+                        }
+                        return false;
+                    }
+                }
+            }
+
+            OsgiBuilder builder = new OsgiBuilder(config, inputArgs);
+            boolean ok = builder.run(true, log, options.nowarning);
+            builder.visitMissingDeps(new SimpleOsgiVisitor());
+            if (imports == null)
+                return ok;
+
+            log.format("Import-Package:") ;
+            Iterator<String> iterator = imports.iterator();
+            while (iterator.hasNext()) {
+                String imp = iterator.next();
+                log.format("%s", imp);
+                if (iterator.hasNext()) {
+                    log.format(",");
+                }
+            }
+            log.format("%n");
+            // imports
+            return ok;
+        }
+
+        private String toPackageName(String name) {
+            int i = name.lastIndexOf('/');
+            return i > 0 ? name.replace('/', '.').substring(0, i) : "";
+        }
+    }
+
     class CheckModuleDeps extends Command {
         final Set<String> modules;
         CheckModuleDeps(Set<String> mods) {
@@ -1094,6 +1166,17 @@ class JdepsTask {
                 log.format("%s%n", originArchive);
             }
             log.format("   %-50s -> %-50s %s%n", origin, target, targetArchive.getName());
+        }
+    }
+
+    class SimpleOsgiVisitor implements Analyzer.Visitor {
+        private Archive source;
+        @Override
+        public void visitDependence(String origin, Archive originArchive, String target, Archive targetArchive) {
+            if (source != originArchive) {
+                source = originArchive;
+            }
+            imports.add(target);
         }
     }
 
