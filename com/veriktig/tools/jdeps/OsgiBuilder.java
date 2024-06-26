@@ -24,35 +24,17 @@
  */
 package com.veriktig.tools.jdeps;
 
-import static com.veriktig.tools.jdeps.JdepsTask.*;
-import static com.veriktig.tools.jdeps.Analyzer.*;
-import static com.veriktig.tools.jdeps.JdepsFilter.DEFAULT_FILTER;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UncheckedIOException;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleDescriptor.Exports;
-import java.lang.module.ModuleDescriptor.Provides;
-import java.lang.module.ModuleDescriptor.Requires;
-import java.lang.module.ModuleFinder;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import static java.util.stream.Collectors.*;
 
 
 public class OsgiBuilder extends ModuleInfoBuilder {
