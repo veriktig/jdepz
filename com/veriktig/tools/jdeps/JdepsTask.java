@@ -1174,12 +1174,8 @@ class JdepsTask {
     }
 
     class SimpleOsgiVisitor implements Analyzer.Visitor {
-        private Archive source;
         @Override
         public void visitDependence(String origin, Archive originArchive, String target, Archive targetArchive) {
-            if (source != originArchive) {
-                source = originArchive;
-            }
             imports.add(target);
         }
     }
