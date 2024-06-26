@@ -61,28 +61,11 @@ public class OsgiBuilder extends ModuleInfoBuilder {
                                             ? requiresTransitive.get(m)
                                             : Collections.emptySet();
 
-                // if this is a multi-release JAR, write to versions/$VERSION/module-info.java
-                Runtime.Version version = configuration.getVersion();
-                Path dir = version != null
-                            ? outputdir.resolve(m.name())
-                                       .resolve("versions")
-                                       .resolve(String.valueOf(version.feature()))
-                            : outputdir.resolve(m.name());
-                Path file = dir.resolve("module-info.java");
-
                 // computes requires and requires transitive
                 Module normalModule = toNormalModule(m, apiDeps, ignoreMissingDeps);
                 if (normalModule != null) {
                     automaticToNormalModule.put(m, normalModule);
 
-                    // generate module-info.java
-                    if (!quiet) {
-                        if (ignoreMissingDeps && analyzer.requires(m).anyMatch(Analyzer::notFound)) {
-                            log.format("Warning: --ignore-missing-deps specified. Missing dependencies from %s are ignored%n",
-                                       m.name());
-                        }
-                        log.format("writing to %s%n", file);
-                    }
                     printModuleInfo(log, normalModule.descriptor());
                 } else {
                     // find missing dependences

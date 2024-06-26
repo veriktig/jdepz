@@ -1018,7 +1018,8 @@ class JdepsTask {
             OsgiBuilder builder = new OsgiBuilder(config, inputArgs, dir, openModule);
             boolean ok = builder.run(true, log, options.nowarning);
             builder.visitMissingDeps(new SimpleOsgiVisitor());
-            if (imports == null)
+
+            if (imports.isEmpty())
                 return ok;
 
             log.format("Import-Package:") ;
@@ -1031,7 +1032,6 @@ class JdepsTask {
                 }
             }
             log.format("%n");
-            // imports
             return ok;
         }
 
