@@ -368,7 +368,7 @@ class JdepsTask {
                 if (task.command != null) {
                     throw new BadArgs("err.command.set", task.command, opt);
                 }
-                task.command = task.genOsgiInfo();
+                task.command = task.genOsgiInfo(Paths.get("."), false);
             }
         },
 
@@ -637,8 +637,8 @@ class JdepsTask {
         return new GenModuleInfo(dir, openModule);
     }
 
-    private GenOsgiInfo genOsgiInfo() throws BadArgs {
-        return new GenOsgiInfo();
+    private GenOsgiInfo genOsgiInfo(Path dir, boolean openModule) throws BadArgs {
+        return new GenOsgiInfo(dir, openModule);
     }
 
     private ListModuleDeps listModuleDeps(CommandOption option) throws BadArgs {
@@ -980,8 +980,12 @@ class JdepsTask {
     }
 
     class GenOsgiInfo extends Command {
-        GenOsgiInfo() {
+        final Path dir;
+        final boolean openModule;
+        GenOsgiInfo(Path dir, boolean openModule) {
             super(CommandOption.GENERATE_OSGI);
+            this.dir = dir;
+            this.openModule = openModule;
         }
 
         @Override
@@ -1011,7 +1015,7 @@ class JdepsTask {
                 }
             }
 
-            OsgiBuilder builder = new OsgiBuilder(config, inputArgs);
+            OsgiBuilder builder = new OsgiBuilder(config, inputArgs, dir, openModule);
             boolean ok = builder.run(true, log, options.nowarning);
             builder.visitMissingDeps(new SimpleOsgiVisitor());
             if (imports == null)

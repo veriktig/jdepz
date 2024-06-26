@@ -148,7 +148,7 @@ public class ModuleInfoBuilder {
         return true;
     }
 
-    private Module toNormalModule(Module module, Set<Archive> requiresTransitive, boolean ignoreMissingDeps)
+    Module toNormalModule(Module module, Set<Archive> requiresTransitive, boolean ignoreMissingDeps)
         throws IOException
     {
         // done analysis
@@ -208,7 +208,7 @@ public class ModuleInfoBuilder {
         }
     }
 
-    private void printModuleInfo(PrintWriter writer, ModuleDescriptor md) {
+    void printModuleInfo(PrintWriter writer, ModuleDescriptor md) {
         writer.format("%smodule %s {%n", open ? "open " : "", md.name());
 
         // first print requires
@@ -265,7 +265,7 @@ public class ModuleInfoBuilder {
         writer.println("}");
     }
 
-    private Set<Module> automaticModules() {
+    Set<Module> automaticModules() {
         return automaticToNormalModule.keySet();
     }
 
@@ -281,7 +281,7 @@ public class ModuleInfoBuilder {
     /**
      * Compute 'requires transitive' dependences by analyzing API dependencies
      */
-    private Map<Archive, Set<Archive>> computeRequiresTransitive()
+    Map<Archive, Set<Archive>> computeRequiresTransitive()
         throws IOException
     {
         // parse the input modules
