@@ -1,17 +1,7 @@
 //
 package com.veriktig.tools.jdeps;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UncheckedIOException;
-import java.lang.module.ModuleDescriptor.Requires;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FixedWidthWriter {
     private PrintWriter writer;
