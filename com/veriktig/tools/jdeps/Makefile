@@ -83,6 +83,7 @@ SRCS = \
 	ClassFileReader.java \
 	DependencyFinder.java \
 	DepsAnalyzer.java \
+	FixedWidthWriter.java \
 	Graph.java \
 	InverseDepsAnalyzer.java \
 	JdepsConfiguration.java \

@@ -1022,16 +1022,19 @@ class JdepsTask {
             if (imports.isEmpty())
                 return ok;
 
-            log.format("Import-Package:") ;
+            String temp = new String("Import-Package: ");
             Iterator<String> iterator = imports.iterator();
             while (iterator.hasNext()) {
                 String imp = iterator.next();
-                log.format("%s", imp);
+                temp = temp.concat(String.format("%s", imp));
                 if (iterator.hasNext()) {
-                    log.format(",");
+                    temp = temp.concat(",");
                 }
             }
-            log.format("%n");
+            StringBuilder sb = new StringBuilder(temp);
+            FixedWidthWriter fw = new FixedWidthWriter(log, 70);
+            fw.format(sb);
+
             return ok;
         }
 

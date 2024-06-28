@@ -81,17 +81,19 @@ public class OsgiBuilder extends ModuleInfoBuilder {
 
     @Override
     void printModuleInfo(PrintWriter writer, ModuleDescriptor md) {
-        writer.format("Export-Package:");
+        String temp = new String("Export-Package: ");
         TreeSet<ModuleDescriptor.Exports> tree = new TreeSet<ModuleDescriptor.Exports>();
         tree.addAll(md.exports());
         Iterator<Exports> iterator = tree.iterator();
         while (iterator.hasNext()) {
             Exports exp = iterator.next();
-            writer.format("%s", exp.source());
+            temp = temp.concat(String.format("%s", exp.source()));
             if (iterator.hasNext()) {
-                writer.format(",");
+                temp = temp.concat(",");
             }
         }
-        writer.format("%n");
+        StringBuilder sb = new StringBuilder(temp);
+        FixedWidthWriter fw = new FixedWidthWriter(writer, 70);
+        fw.format(sb);
     }
 }
