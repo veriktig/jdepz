@@ -1181,7 +1181,9 @@ class JdepsTask {
     class SimpleOsgiVisitor implements Analyzer.Visitor {
         @Override
         public void visitDependence(String origin, Archive originArchive, String target, Archive targetArchive) {
-            imports.add(target);
+            // Remove class from target (just need package)
+            int last_dot = target.lastIndexOf('.');
+            imports.add(target.substring(0, last_dot));
         }
     }
 
