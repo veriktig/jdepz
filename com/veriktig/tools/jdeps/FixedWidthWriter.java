@@ -13,15 +13,20 @@ public class FixedWidthWriter {
     }
 
     void format(StringBuilder sb) {
-        int lines = ((sb.length() % LINEWIDTH) != 0) ? sb.length() / LINEWIDTH + 1 : sb.length();
-        for (int ii = 0; ii < lines; ii++) {
-            int line_width = (ii == 0) ? LINEWIDTH : LINEWIDTH - 1;
-            int start = ii * line_width;
-            int end = (ii*line_width + line_width > sb.length()) ? sb.length() : ii*line_width + line_width;
-            if (ii > 0)
-                writer.format(" %s%n", sb.substring(start, end));
-            else
+        int length = sb.length();
+        int line_number = 0;
+        int start = 0;
+        while (length > 0) {
+            int base_line_width = (line_number == 0) ? LINEWIDTH : LINEWIDTH - 1;
+            int line_width = (length > base_line_width) ? base_line_width : length + 1;
+            int end = start + line_width - 1;
+            if (line_number == 0)
                 writer.format("%s%n", sb.substring(start, end));
+            else
+                writer.format(" %s%n", sb.substring(start, end));
+            start += line_width;
+            length -= line_width;
+            line_number++;
         }
     }
 }
