@@ -18,8 +18,8 @@ public class FixedWidthWriter {
         int start = 0;
         while (length > 0) {
             int base_line_width = (line_number == 0) ? LINEWIDTH : LINEWIDTH - 1;
-            int line_width = (length > base_line_width) ? base_line_width : length + 1;
-            int end = start + line_width - 1;
+            int line_width = (length > base_line_width) ? base_line_width : length;
+            int end = start + line_width;
             if (line_number == 0)
                 writer.format("%s%n", sb.substring(start, end));
             else

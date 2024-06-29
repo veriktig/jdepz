@@ -45,8 +45,7 @@ public class OsgiBuilder extends ModuleInfoBuilder {
         super(configuration, args, outputdir, open);
     }
 
-    @Override
-    public boolean run(boolean ignoreMissingDeps, PrintWriter log, boolean quiet) throws IOException {
+    public boolean run(boolean ignoreMissingDeps, PrintWriter log, boolean quiet, String version) throws IOException {
         try {
             // pass 1: find API dependencies
             Map<Archive, Set<Archive>> requiresTransitive = computeRequiresTransitive();
@@ -66,7 +65,7 @@ public class OsgiBuilder extends ModuleInfoBuilder {
                 if (normalModule != null) {
                     automaticToNormalModule.put(m, normalModule);
 
-                    printModuleInfo(log, normalModule.descriptor());
+                    printModuleInfo(log, normalModule.descriptor(), version);
                 } else {
                     // find missing dependences
                     return false;
@@ -79,15 +78,14 @@ public class OsgiBuilder extends ModuleInfoBuilder {
         return true;
     }
 
-    @Override
-    void printModuleInfo(PrintWriter writer, ModuleDescriptor md) {
+    void printModuleInfo(PrintWriter writer, ModuleDescriptor md, String version) {
         String temp = new String("Export-Package: ");
         TreeSet<ModuleDescriptor.Exports> tree = new TreeSet<ModuleDescriptor.Exports>();
         tree.addAll(md.exports());
         Iterator<Exports> iterator = tree.iterator();
         while (iterator.hasNext()) {
             Exports exp = iterator.next();
-            temp = temp.concat(String.format("%s", exp.source()));
+            temp = temp.concat(String.format("%s;version=\"%s\"", exp.source(), version));
             if (iterator.hasNext()) {
                 temp = temp.concat(",");
             }
