@@ -3,7 +3,7 @@
 JDEPS = com/veriktig/tools/jdeps
 
 all:
-	cd ${JDEPS};make
+	cd ${JDEPS};make;make clean
 
 clean:
 	cd ${JDEPS};make clean
